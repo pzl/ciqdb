@@ -41,14 +41,20 @@ func (h *Head) String() string {
 }
 
 func parseHead(t SecType, length int, data []byte) *Head {
-	return &Head{
+	h := Head{
 		PRGSection: PRGSection{
 			Type:   t,
 			length: length,
 		},
-		CIQVersion:   Version{data[1], data[2], data[3]},
-		BGDataOffset: int(binary.BigEndian.Uint32(data[4:8])),
-		BGCodeOffset: int(binary.BigEndian.Uint32(data[8:12])),
-		AppTrial:     data[12] == 1,
+		CIQVersion: Version{data[1], data[2], data[3]},
 	}
+
+	if length > 4 {
+		h.BGDataOffset = int(binary.BigEndian.Uint32(data[4:8]))
+		h.BGCodeOffset = int(binary.BigEndian.Uint32(data[8:12]))
+		if length > 12 {
+			h.AppTrial = data[12] == 1
+		}
+	}
+	return &h
 }
