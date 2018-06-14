@@ -3,3 +3,5 @@
 *.png
 parse/scale
 parse/parse
+
+samples/
