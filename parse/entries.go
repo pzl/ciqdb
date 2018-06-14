@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"os"
 	"strconv"
+	"strings"
 )
 
 type EntrySection struct {
@@ -15,7 +16,14 @@ type EntrySection struct {
 }
 
 func (e *EntrySection) String() string {
-	return e.PRGSection.String() + e.Entries[0].String() // @todo: print out multiple entry points
+	var buf strings.Builder
+
+	buf.WriteString(e.PRGSection.String())
+	for i, ep := range e.Entries {
+		buf.WriteString("\n  Entry Point " + strconv.Itoa(i))
+		buf.WriteString(ep.String())
+	}
+	return buf.String()
 }
 
 type AppType uint8
