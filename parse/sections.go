@@ -4,6 +4,7 @@ import (
 	"encoding/binary"
 	"io"
 	"strconv"
+	"strings"
 )
 
 type PRGSection struct {
@@ -18,7 +19,11 @@ func (s *PRGSection) getName() string {
 	return s.Type.String()
 }
 func (s *PRGSection) getLabel() string {
-	return strconv.FormatInt(int64(s.Type), 16)
+	label := strconv.FormatInt(int64(s.Type), 16)
+	if len(label) < 8 {
+		return strings.Repeat("0", 8-len(label)) + label
+	}
+	return label
 }
 func (s *PRGSection) getLength() int {
 	return s.length
