@@ -18,7 +18,7 @@ func (s *SettingVal) String() string {
 	switch s.datatype {
 	case MonkeyCBool:
 		return strconv.FormatBool(int(s.value[0]) == 0)
-	case MonkeyCNumber:
+	case MonkeyCInt:
 		return strconv.Itoa(int(binary.BigEndian.Uint32(s.value)))
 	case MonkeyCString:
 		return string(s.value)
