@@ -1,4 +1,4 @@
-SRCS=prg.go sections.go settings.go head.go entries.go data.go pc2ln.go perms.go
+SRCS=prg.go sections.go settings.go head.go entries.go data.go pc2ln.go perms.go symboltable.go
 
 all: parse
 
