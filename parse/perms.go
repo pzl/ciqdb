@@ -17,6 +17,9 @@ func (p *Permissions) String() string {
 	buf.WriteString(p.PRGSection.String() + "\n")
 
 	for _, perm := range p.perms {
+		// so far, looks like you parse this as an int
+		// and then match it with the entry in $SDK/bin/api.db
+		// but there must be a SymbolTable way.. ?
 		buf.WriteString("    " + perm.String() + "\n")
 	}
 
