@@ -22,6 +22,7 @@ func (s *SettingVal) String() string {
 		return strconv.Itoa(int(binary.BigEndian.Uint32(s.value)))
 	case MonkeyCString:
 		return string(s.value)
+	// todo: float
 	default:
 		return hex.EncodeToString(s.value)
 	}

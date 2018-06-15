@@ -6,7 +6,7 @@ parse: $(SRCS)
 	go build
 
 run: parse
-	./parse ~/dev/MonkeyC/samples/crystal-face/bin/crystal-face.prg
+	./parse samples/crystal-face.prg
 
 bench: prof.png
 	viewnior $<
