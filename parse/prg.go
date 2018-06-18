@@ -30,6 +30,17 @@ const (
 	MonkeyCSysPointer
 	MonkeyCChar
 )
+func (d DataType) String() string {
+	names := []string{
+		"NULL","Int","Float","String","Object","Array","Method","ClassDef",
+		"Symbol","Bool","ModuleDef","Hash","Resource","Primitive Obj","Long",
+		"Double","Weak Pointer","Primitive Module","System Pointer","Char",
+	}
+	if d > MonkeyCChar || d < MonkeyCNull {
+		return "Unknown"
+	}
+	return names[int(d)]
+}
 
 type Section interface {
 	getLength() int
