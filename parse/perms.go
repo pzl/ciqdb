@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/binary"
-	"encoding/hex"
 	//"strconv"
 	"strings"
 )
@@ -31,7 +30,7 @@ type Permission struct {
 }
 
 func (p *Permission) String() string {
-	return hex.EncodeToString(p.data)
+	return apidb(int(binary.BigEndian.Uint32(p.data)))
 }
 
 func parsePermissions(p *PRG, t SecType, length int, data []byte) *Permissions {

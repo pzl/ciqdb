@@ -61,7 +61,7 @@ func (e *EntryPoint) String() string {
     UUID: ` + e.uuid + `
     Type: ` + e.apptype.String() + `
     ` + e.label + `: ` + e.symbol + `
-    Module: ` + strconv.FormatInt(int64(e.module), 16) + `
+    Module: ` + apidb(e.module) + `
     icon: ` + strconv.FormatInt(int64(e.icon), 16)
 }
 
