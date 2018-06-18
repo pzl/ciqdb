@@ -116,6 +116,8 @@ func readSection(p *PRG, f io.Reader) (Section, error) {
 		sec = parsePermissions(p, secType, secLength, data)
 	case SectionExceptions:
 		sec = parseExceptions(p, secType, secLength, data)
+	case SectionEncoded:
+		sec = parseDevKey(p, secType, secLength, data)
 	default:
 		sec = defaultSection(secType, secLength, data)
 	}
