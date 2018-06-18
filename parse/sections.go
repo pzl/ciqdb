@@ -112,6 +112,8 @@ func readSection(p *PRG, f io.Reader) (Section, error) {
 		sec = parseData(p, secType, secLength, data)
 	case SectionCodeTable:
 		sec = parsePCTable(p, secType, secLength, data)
+	case SectionClassTable:
+		sec = parseDataTable(p, secType, secLength, data)
 	case SectionGoodBoy:
 		sec = parsePermissions(p, secType, secLength, data)
 	case SectionExceptions:
