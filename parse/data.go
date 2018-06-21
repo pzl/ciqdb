@@ -42,7 +42,8 @@ func (c ClassDef) String() string {
 	                "    static Entry: "+strconv.FormatInt(int64(c.staticEntry),16)+"\n"+
 	                "    parent module: "+apidb(int(c.parentModule))+"\n"+
 	                "    module ID: "+apidb(int(c.moduleID))+"\n"+
-	                "    app types: "+strconv.FormatInt(int64(c.appTypes),16)+"\n")
+	                "    app types: "+strconv.FormatInt(int64(c.appTypes),16)+"\n"+
+	                "    fields:\n")
 
 	for _, f := range c.fields {
 		buf.WriteString("        "+f.String()+"\n")
@@ -57,7 +58,7 @@ type Field struct {
 	valueType DataType
 }
 func (f Field) String() string {
-	return strconv.FormatInt(int64(f.symbol),16)+": "+strconv.Itoa(int(f.value))+" "+f.flags.String()+" "+f.valueType.String()
+	return apidb(int(f.symbol))+": "+strconv.Itoa(int(f.value))+" "+f.flags.String()+" "+f.valueType.String()
 }
 
 

@@ -27,7 +27,7 @@ func (st *SymbolTable) Lookup(id int) string {
 	if val, exists := st.table[id]; exists {
 		return val
 	}
-	return "!! UNKNOWN SYMBOL !!"
+	return "Unknown Symbol ID: "+strconv.Itoa(id)
 }
 
 func parseSymbols(p *PRG, t SecType, length int, data []byte) *SymbolTable {
@@ -50,6 +50,8 @@ func parseSymbols(p *PRG, t SecType, length int, data []byte) *SymbolTable {
 		s := string(data[offset+3 : offset+3+slen])
 		st.table[id] = s
 	}
+
+	SymTable = &st
 
 	return &st
 }
