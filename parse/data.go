@@ -16,7 +16,7 @@ type DataSection struct {
 func (d *DataSection) String() string {
 	var buf strings.Builder
 
-	buf.WriteString(d.PRGSection.String())
+	buf.WriteString(d.PRGSection.String()+"\n")
 
 	for _, c := range d.cdefs {
 		buf.WriteString(c.String())
