@@ -3,9 +3,6 @@ package main
 import (
 	"encoding/binary"
 	"encoding/hex"
-	"encoding/xml"
-	"io/ioutil"
-	"os"
 	"strconv"
 	"strings"
 )
@@ -50,8 +47,8 @@ func (a *AppType) String() string {
 type EntryPoint struct {
 	uuid    string
 	module  int
-	symbol  string
-	label   string
+	symbol  int
+	label   int
 	icon    int
 	apptype AppType
 }
@@ -60,7 +57,7 @@ func (e *EntryPoint) String() string {
 	return `
     UUID: ` + e.uuid + `
     Type: ` + e.apptype.String() + `
-    ` + e.label + `: ` + e.symbol + `
+    ` + apidb(e.label) + `: ` + apidb(e.symbol) + `
     Module: ` + apidb(e.module) + `
     icon: ` + strconv.FormatInt(int64(e.icon), 16)
 }
@@ -89,45 +86,12 @@ func parseEntry(filename string, data []byte) (*EntryPoint, error) {
 	entry := EntryPoint{
 		uuid:    hex.EncodeToString(data[:16]),
 		module:  int(binary.BigEndian.Uint32(data[16:20])),
+		symbol:  int(binary.BigEndian.Uint32(data[20:24])),
+		label:   int(binary.BigEndian.Uint32(data[24:28])),
 		icon:    int(binary.BigEndian.Uint32(data[28:32])),
 		apptype: AppType(binary.BigEndian.Uint32(data[32:36])),
 	}
-
-	symbol := int(binary.BigEndian.Uint32(data[20:24])) // see .prg.debug : <symbolTable><entry id="X"/>
-	label := int(binary.BigEndian.Uint32(data[24:28]))
-
-	var root struct {
-		SymbolTable struct {
-			Entry []struct {
-				ID     int    `xml:"id,attr"`
-				Module bool   `xml:"module,attr"`
-				Field  bool   `xml:"field,attr"`
-				Method bool   `xml:"method,attr"`
-				Symbol string `xml:"symbol,attr"`
-			} `xml:"entry"`
-		} `xml:"symbolTable"`
-	}
-
-	file, err := os.Open(filename + ".debug.xml")
-	if err == nil {
-		defer file.Close()
-		xmlData, e := ioutil.ReadAll(file)
-		if e != nil {
-			return &entry, e
-		}
-		xmlErr := xml.Unmarshal(xmlData, &root)
-		if xmlErr != nil {
-			return &entry, xmlErr
-		}
-
-		for _, s := range root.SymbolTable.Entry {
-			if s.ID == symbol {
-				entry.symbol = s.Symbol
-			} else if s.ID == label {
-				entry.label = s.Symbol
-			}
-		}
-	}
+	// for symbol, label, also see .prg.debug : <symbolTable><entry id="X"/>
 
 	return &entry, nil
 }
