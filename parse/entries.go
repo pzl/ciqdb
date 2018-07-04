@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"encoding/binary"
 	"encoding/hex"
 	"strconv"
@@ -23,26 +24,19 @@ func (e *EntrySection) String() string {
 	return buf.String()
 }
 
+
+//go:generate stringer -type=AppType
 type AppType uint8
 
 const (
-	WatchFace = AppType(iota)
+	WatchFace AppType = iota
 	App
 	DataField
 	Widget
-	Background
-	Audio
+	BackgroundApp
+	AudioProvider
 )
 
-func (a *AppType) String() string {
-	name := []string{"Watch Face", "App", "Data Field", "Widget", "Background App", "Audio Provider"}
-	switch {
-	case *a <= Audio:
-		return name[*a]
-	default:
-		return "Unknown (" + strconv.Itoa(int(*a)) + ")"
-	}
-}
 
 type EntryPoint struct {
 	uuid    string
@@ -56,7 +50,7 @@ type EntryPoint struct {
 func (e *EntryPoint) String() string {
 	return `
     UUID: ` + e.uuid + `
-    Type: ` + e.apptype.String() + `
+    Type: ` + fmt.Sprint(e.apptype) + `
     ` + apidb(e.label) + `: ` + apidb(e.symbol) + `
     Module: ` + apidb(e.module) + `
     icon: ` + strconv.FormatInt(int64(e.icon), 16)

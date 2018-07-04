@@ -16,11 +16,11 @@ type SettingVal struct {
 
 func (s *SettingVal) String() string {
 	switch s.datatype {
-	case MonkeyCBool:
+	case Bool:
 		return strconv.FormatBool(int(s.value[0]) == 0)
-	case MonkeyCInt:
+	case Int:
 		return strconv.Itoa(int(binary.BigEndian.Uint32(s.value)))
-	case MonkeyCString:
+	case String:
 		return string(s.value)
 	// todo: float
 	default:
@@ -70,7 +70,7 @@ func parseSettings(p *PRG, t SecType, length int, data []byte) *SettingsSection 
 	}
 
 	for _, v := range vals {
-		if v.datatype == MonkeyCString {
+		if v.datatype == String {
 			v.value = []byte(strs[int(binary.BigEndian.Uint32(v.value))])
 		}
 		s.S[strs[v.offset]] = v
@@ -102,7 +102,7 @@ func parseSettingsValues(data []byte) []SettingVal {
 		dt := DataType(data[i+4])
 		var n int
 		switch dt {
-		case MonkeyCBool:
+		case Bool:
 			n = 1
 		default:
 			n = 4

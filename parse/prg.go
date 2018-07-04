@@ -6,41 +6,32 @@ import (
 	"os"
 )
 
+
+//go:generate stringer -type=DataType
 type DataType uint8
 
 const (
-	MonkeyCNull DataType = iota
-	MonkeyCInt
-	MonkeyCFloat
-	MonkeyCString
-	MonkeyCObject
-	MonkeyCArray
-	MonkeyCMethod
-	MonkeyCClassDef
-	MonkeyCSymbol
-	MonkeyCBool
-	MonkeyCModuleDef
-	MonkeyCHash
-	MonkeyCResource // then resourceBITMAP=0, FONT=1
-	MonkeyCPrimitiveObj
-	MonkeyCLong
-	MonkeyCDouble
-	MonkeyCWeakPointer
-	MonkeyCPrimitiveMod
-	MonkeyCSysPointer
-	MonkeyCChar
+	Null DataType = iota
+	Int
+	Float
+	String
+	Object
+	Array
+	Method
+	ClassDefinition
+	Symbol
+	Bool
+	ModuleDef
+	Hash
+	Resource // then resourceBITMAP=0, FONT=1
+	PrimitiveObj
+	Long
+	Double
+	WeakPointer
+	PrimitiveMod
+	SysPointer
+	Char
 )
-func (d DataType) String() string {
-	names := []string{
-		"NULL","Int","Float","String","Object","Array","Method","ClassDef",
-		"Symbol","Bool","ModuleDef","Hash","Resource","Primitive Obj","Long",
-		"Double","Weak Pointer","Primitive Module","System Pointer","Char",
-	}
-	if d > MonkeyCChar || d < MonkeyCNull {
-		return "Unknown"
-	}
-	return names[int(d)]
-}
 
 type Section interface {
 	getLength() int

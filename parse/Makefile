@@ -3,6 +3,7 @@ SRCS=prg.go sections.go settings.go head.go entries.go data.go pc2ln.go perms.go
 all: parse
 
 parse: $(SRCS)
+	go generate
 	go build
 
 run: parse
@@ -18,4 +19,4 @@ cpu.prof: parse_test.go $(SRCS)
 	go test -bench . -cpuprofile=$@
 
 clean:
-	$(RM) -rf parse prof.png cpu.prof parse.test
+	$(RM) -rf parse prof.png cpu.prof parse.test *_string.go

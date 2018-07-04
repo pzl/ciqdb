@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"encoding/binary"
 	"bytes"
 	"strconv"
@@ -58,7 +59,7 @@ type Field struct {
 	valueType DataType
 }
 func (f Field) String() string {
-	return apidb(int(f.symbol))+": "+strconv.Itoa(int(f.value))+" "+f.flags.String()+" "+f.valueType.String()
+	return apidb(int(f.symbol))+": "+strconv.Itoa(int(f.value))+" "+f.flags.String()+" "+fmt.Sprint(f.valueType)
 }
 
 
