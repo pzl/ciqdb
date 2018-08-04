@@ -2,7 +2,8 @@
 *.test
 *.png
 *_string.go
-parse/scale
-parse/parse
+scale
+ciqdb
 
 samples/
+vendor/
