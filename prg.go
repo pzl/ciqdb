@@ -1,11 +1,10 @@
-package main
+package ciqdb
 
 import (
 	"fmt"
 	"io"
 	"os"
 )
-
 
 //go:generate stringer -type=DataType
 type DataType uint8
@@ -42,8 +41,8 @@ type Section interface {
 }
 
 type PRG struct {
-	filename string
-	sections []Section
+	Filename string
+	Sections []Section
 }
 
 func (p *PRG) Parse(r io.Reader) error {
@@ -54,14 +53,14 @@ func (p *PRG) Parse(r io.Reader) error {
 		} else if err != nil {
 			return err
 		}
-		p.sections = append(p.sections, s)
+		p.Sections = append(p.Sections, s)
 	}
 	return nil
 }
 
 func NewPRG(filename string) (*PRG, error) {
 	prg := PRG{}
-	prg.filename = filename
+	prg.Filename = filename
 
 	file, err := os.Open(filename)
 	if err != nil {
@@ -74,21 +73,4 @@ func NewPRG(filename string) (*PRG, error) {
 	}
 
 	return &prg, nil
-}
-
-func main() {
-	if len(os.Args) < 2 {
-		fmt.Println("argument required: path to .prg file")
-		os.Exit(1)
-	}
-	filename := os.Args[1]
-	prg, err := NewPRG(filename)
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-
-	for _, s := range prg.sections {
-		fmt.Println(s)
-	}
 }

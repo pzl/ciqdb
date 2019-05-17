@@ -1,4 +1,4 @@
-package main
+package ciqdb
 
 var SymTable *SymbolTable
 

@@ -1,4 +1,4 @@
-package main
+package ciqdb
 
 import (
 	"encoding/binary"

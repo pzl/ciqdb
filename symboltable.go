@@ -1,4 +1,4 @@
-package main
+package ciqdb
 
 import (
 	"encoding/binary"
@@ -27,7 +27,7 @@ func (st *SymbolTable) Lookup(id int) string {
 	if val, exists := st.table[id]; exists {
 		return val
 	}
-	return "Unknown Symbol ID: "+strconv.Itoa(id)
+	return "Unknown Symbol ID: " + strconv.Itoa(id)
 }
 
 func parseSymbols(p *PRG, t SecType, length int, data []byte) *SymbolTable {

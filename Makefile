@@ -1,22 +1,29 @@
-SRCS=prg.go sections.go settings.go head.go entries.go data.go pc2ln.go perms.go symboltable.go except.go devkey.go linktable.go apidb.go symboltable.go
+SRCS=$(wildcard *.go cmd/*/*.go)
+TARGET=bin/ciqdb
+BLDDIR=build
 
-all: ciqdb
 
-ciqdb: $(SRCS)
-	go generate
-	go build
+all: $(TARGET)
 
-run: ciqdb
-	./ciqdb samples/crystal-face.prg
+$(TARGET): $(SRCS)
+	go generate ./...
+	go build -o $@ ./cmd/ciqdb
 
-bench: prof.png
+run: $(TARGET)
+	./bin/ciqdb samples/crystal-face.prg
+
+bench: $(BLDDIR)/prof.png
 	viewnior $<
 
-prof.png: cpu.prof
+$(BLDDIR)/prof.png: $(BLDDIR)/cpu.prof
 	go tool pprof -png ciqdb.test $< > $@
 
-cpu.prof: parse_test.go $(SRCS)
+$(BLDDIR)/cpu.prof: $(SRCS) $(BLDDIR)
 	go test -bench . -cpuprofile=$@
 
+
+$(BLDDIR):
+	mkdir -p $@
+
 clean:
-	$(RM) -rf ciqdb prof.png cpu.prof ciqdb.test *_string.go
+	$(RM) -rf bin/* ciqdb.test $(BLDDIR)/* ciq/*_string.go

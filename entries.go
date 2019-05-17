@@ -1,9 +1,9 @@
-package main
+package ciqdb
 
 import (
-	"fmt"
 	"encoding/binary"
 	"encoding/hex"
+	"fmt"
 	"strconv"
 	"strings"
 )
@@ -24,7 +24,6 @@ func (e *EntrySection) String() string {
 	return buf.String()
 }
 
-
 //go:generate stringer -type=AppType
 type AppType uint8
 
@@ -36,7 +35,6 @@ const (
 	BackgroundApp
 	AudioProvider
 )
-
 
 type EntryPoint struct {
 	uuid    string
@@ -66,7 +64,7 @@ func parseEntries(p *PRG, t SecType, length int, data []byte) (*EntrySection, er
 
 	n := int(binary.BigEndian.Uint16(data[:2]))
 	for i := 0; i < n; i++ {
-		entry, err := parseEntry(p.filename, data[i*36+2:(i+1)*36+2])
+		entry, err := parseEntry(p.Filename, data[i*36+2:(i+1)*36+2])
 		if err != nil {
 			return nil, err
 		}

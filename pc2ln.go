@@ -1,4 +1,4 @@
-package main
+package ciqdb
 
 import (
 	"encoding/binary"
@@ -43,7 +43,7 @@ func parsePCTable(p *PRG, t SecType, length int, data []byte) *CodeTable {
 	}
 
 	var dataSec *DataSection
-	for _, s := range p.sections {
+	for _, s := range p.Sections {
 		if s.getType() == SectionData {
 			dataSec = s.(*DataSection)
 		}

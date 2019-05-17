@@ -3,7 +3,7 @@
 *.png
 *_string.go
 scale
-ciqdb
 
 samples/
 vendor/
+bin/

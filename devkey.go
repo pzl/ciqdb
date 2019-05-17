@@ -1,4 +1,4 @@
-package main
+package ciqdb
 
 import (
 	"encoding/binary"
@@ -12,11 +12,12 @@ type DevKey struct {
 	modulus   []byte
 	exponent  int
 }
+
 func (d *DevKey) String() string {
 	return d.PRGSection.String() + "\n" +
-		"    signature: "+hex.EncodeToString(d.signature[0:10])+"...\n"+
-		"    modulus: "+hex.EncodeToString(d.modulus[0:10])+"...\n"+
-		"    exponent: "+strconv.Itoa(d.exponent)
+		"    signature: " + hex.EncodeToString(d.signature[0:10]) + "...\n" +
+		"    modulus: " + hex.EncodeToString(d.modulus[0:10]) + "...\n" +
+		"    exponent: " + strconv.Itoa(d.exponent)
 }
 
 func parseDevKey(p *PRG, t SecType, length int, data []byte) *DevKey {
@@ -25,8 +26,8 @@ func parseDevKey(p *PRG, t SecType, length int, data []byte) *DevKey {
 			Type:   t,
 			length: length,
 		},
-		signature: data[0 : 512],
-		modulus:   data[512 : 1024],
-		exponent:  int(binary.BigEndian.Uint32(data[1024 : 1028])),
+		signature: data[0:512],
+		modulus:   data[512:1024],
+		exponent:  int(binary.BigEndian.Uint32(data[1024:1028])),
 	}
 }
